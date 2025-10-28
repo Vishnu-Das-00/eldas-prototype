@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eldas - AI-Powered Educational Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar (Hidden on landing page, shown on dashboards) -->
+    <nav id="navbar" class="navbar hidden">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="logo-icon">📚</span>
+                <span class="logo-text">Eldas</span>
+            </div>
+            <div id="navLinks" class="nav-links"></div>
+            <button id="logoutBtn" class="btn btn--outline btn--sm">Change Role</button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main id="mainContent">
+        <!-- Landing Page -->
+        <div id="landingPage" class="view active">
+            <div class="landing-hero">
+                <div class="hero-content">
+                    <h1 class="hero-title">Welcome to Eldas</h1>
+                    <p class="hero-subtitle">Empowering Education Through Daily AI-Powered Assessments</p>
+                    <p class="hero-description">
+                        Eldas transforms education through intelligent daily assessments. Students take daily exams,
+                        AI analyzes performance patterns, and insights are shared with teachers and parents to create
+                        a comprehensive support system for every learner.
+                    </p>
+                </div>
+                
+                <div class="role-selection">
+                    <h2 class="section-title">Select Your Role</h2>
+                    <div class="role-cards">
+                        <div class="role-card" data-role="student">
+                            <div class="role-icon">🎓</div>
+                            <h3>Student</h3>
+                            <p>Take daily assessments, track your progress, and get personalized AI insights to improve your learning.</p>
+                            <button class="btn btn--primary">Enter as Student</button>
+                        </div>
+                        
+                        <div class="role-card" data-role="teacher">
+                            <div class="role-icon">👩‍🏫</div>
+                            <h3>Teacher</h3>
+                            <p>Create exams, monitor class performance, and receive AI-powered insights on student learning patterns.</p>
+                            <button class="btn btn--primary">Enter as Teacher</button>
+                        </div>
+                        
+                        <div class="role-card" data-role="parent">
+                            <div class="role-icon">👨‍👩‍👧</div>
+                            <h3>Parent</h3>
+                            <p>Monitor your child's progress, understand their strengths, and get recommendations for home support.</p>
+                            <button class="btn btn--primary">Enter as Parent</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Dashboard -->
+        <div id="studentDashboard" class="view">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h1>Welcome back, Rahul! 👋</h1>
+                    <p class="subtitle">Ready for today's assessments?</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-1);">📊</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Overall Average</div>
+                            <div class="stat-value">78%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-3);">✅</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Exams This Week</div>
+                            <div class="stat-value">5</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-6);">🔥</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Current Streak</div>
+                            <div class="stat-value">7 days</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-section">
+                        <h2>Available Exams Today</h2>
+                        <div class="exam-cards" id="availableExams"></div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h2>AI Insights</h2>
+                        <div class="insight-panel">
+                            <div class="insight-section">
+                                <h3>💪 Your Strengths</h3>
+                                <ul class="insight-list">
+                                    <li>Strong performance in English grammar and vocabulary</li>
+                                    <li>Excellent understanding of basic algebra concepts</li>
+                                    <li>Good time management during exams</li>
+                                </ul>
+                            </div>
+                            <div class="insight-section">
+                                <h3>🎯 Focus Areas</h3>
+                                <ul class="insight-list warning">
+                                    <li>Practice math word problems daily</li>
+                                    <li>Review science vocabulary terms</li>
+                                    <li>Take time to review answers before submission</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <h2 style="margin-top: 24px;">Recent Results</h2>
+                        <div class="results-list" id="recentResults"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Exam Interface -->
+        <div id="examInterface" class="view">
+            <div class="exam-container">
+                <div class="exam-header">
+                    <div class="exam-info">
+                        <h2 id="examTitle">Daily Math Assessment</h2>
+                        <p id="examProgress">Question 1 of 10</p>
+                    </div>
+                    <div class="exam-timer" id="examTimer">⏱️ 30:00</div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+
+                <div class="question-card">
+                    <div class="question-text" id="questionText"></div>
+                    <div class="options" id="questionOptions"></div>
+                </div>
+
+                <div class="exam-navigation">
+                    <button id="prevBtn" class="btn btn--secondary">← Previous</button>
+                    <button id="nextBtn" class="btn btn--primary">Next →</button>
+                    <button id="submitExamBtn" class="btn btn--primary" style="display: none;">Submit Exam</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Results Page -->
+        <div id="resultsPage" class="view">
+            <div class="results-container">
+                <div class="results-header">
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <div class="score-value" id="finalScore">85%</div>
+                            <div class="score-grade" id="finalGrade">B+</div>
+                        </div>
+                        <h1>Great Job, Rahul!</h1>
+                    </div>
+                </div>
+
+                <div class="results-grid">
+                    <div class="result-section">
+                        <h2>Subject Breakdown</h2>
+                        <div class="subject-scores" id="subjectBreakdown"></div>
+                    </div>
+
+                    <div class="result-section">
+                        <h2>AI Analysis</h2>
+                        <div class="analysis-card">
+                            <div class="analysis-section success">
+                                <h3>✨ Strengths Identified</h3>
+                                <ul>
+                                    <li>Excellent grasp of algebraic manipulation</li>
+                                    <li>Strong performance on calculation-based questions</li>
+                                    <li>Good understanding of geometric concepts</li>
+                                </ul>
+                            </div>
+                            <div class="analysis-section warning">
+                                <h3>📈 Areas for Improvement</h3>
+                                <ul>
+                                    <li>Word problem solving needs more practice</li>
+                                    <li>Consider spending more time on complex problems</li>
+                                </ul>
+                            </div>
+                            <div class="analysis-section info">
+                                <h3>💡 Recommendations</h3>
+                                <ul>
+                                    <li>Practice 2-3 word problems daily, breaking them down step-by-step</li>
+                                    <li>Create visual diagrams for complex problems</li>
+                                    <li>Review incorrect answers to understand mistake patterns</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="comparison-card">
+                            <h3>Performance Comparison</h3>
+                            <div class="comparison-item">
+                                <span>Your Score:</span>
+                                <strong>85%</strong>
+                            </div>
+                            <div class="comparison-item">
+                                <span>Class Average:</span>
+                                <strong>76%</strong>
+                            </div>
+                            <div class="comparison-item highlight">
+                                <span>You performed better than</span>
+                                <strong>68% of the class</strong>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--full-width" onclick="showView('studentDashboard')">Back to Dashboard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Dashboard -->
+        <div id="teacherDashboard" class="view">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <div>
+                        <h1>Welcome, Ms. Priya Reddy 👋</h1>
+                        <p class="subtitle">Here's your class overview for today</p>
+                    </div>
+                    <button class="btn btn--primary" onclick="showView('createExam')">+ Create New Exam</button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-1);">👥</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Total Students</div>
+                            <div class="stat-value">32</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-3);">📊</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Class Average</div>
+                            <div class="stat-value">76%</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-6);">📝</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Exams Today</div>
+                            <div class="stat-value">2</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-section">
+                        <h2>Class Performance</h2>
+                        <div class="student-table">
+                            <div class="table-header">
+                                <div>Student Name</div>
+                                <div>Overall</div>
+                                <div>Trend</div>
+                                <div>Action</div>
+                            </div>
+                            <div id="studentList"></div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h2>AI Insights</h2>
+                        <div class="insight-panel">
+                            <div class="insight-section alert">
+                                <h3>⚠️ Students Needing Attention</h3>
+                                <div class="alert-item">
+                                    <strong>Arjun Kumar</strong>
+                                    <p>Consistently scoring below 70% across all subjects</p>
+                                    <small>Recommendation: Schedule one-on-one session to identify learning gaps</small>
+                                </div>
+                                <div class="alert-item">
+                                    <strong>Vikram Singh</strong>
+                                    <p>Strong fluctuation in Science exam scores</p>
+                                    <small>Recommendation: Practice timed quizzes in low-stress environment</small>
+                                </div>
+                            </div>
+                            <div class="insight-section info">
+                                <h3>📊 Class Insights</h3>
+                                <ul class="insight-list">
+                                    <li>65% of students scored below 70% on photosynthesis - consider additional teaching session</li>
+                                    <li>Class performs better on multiple-choice (82%) vs word problems (68%)</li>
+                                    <li>Monday morning exams show 12% higher scores than Friday afternoon</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <button class="btn btn--primary btn--full-width" onclick="showView('teacherAnalytics')" style="margin-top: 16px;">View Detailed Analytics</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Create Exam -->
+        <div id="createExam" class="view">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1>Create New Exam</h1>
+                    <p class="subtitle">Set up a new assessment for your students</p>
+                </div>
+
+                <form id="examForm" class="exam-form">
+                    <div class="form-group">
+                        <label class="form-label">Exam Title</label>
+                        <input type="text" class="form-control" placeholder="e.g., Weekly Math Quiz" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Subject</label>
+                            <select class="form-control" required>
+                                <option value="">Select subject...</option>
+                                <option value="math">Mathematics</option>
+                                <option value="science">Science</option>
+                                <option value="english">English</option>
+                                <option value="social">Social Studies</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Time Limit</label>
+                            <select class="form-control" required>
+                                <option value="15">15 minutes</option>
+                                <option value="30" selected>30 minutes</option>
+                                <option value="45">45 minutes</option>
+                                <option value="60">60 minutes</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Number of Questions: <span id="questionCount">10</span></label>
+                        <input type="range" class="form-range" min="5" max="20" value="10" id="questionSlider">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Schedule Date</label>
+                            <input type="date" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Schedule Time</label>
+                            <input type="time" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="question-bank">
+                        <h3>Question Bank Preview</h3>
+                        <p class="help-text">Questions will be auto-generated from your selected topic or you can add custom questions</p>
+                        <div class="sample-questions">
+                            <div class="sample-q">Q1: If 2x + 5 = 15, what is the value of x?</div>
+                            <div class="sample-q">Q2: What is 15% of 200?</div>
+                            <div class="sample-q">Q3: The area of a rectangle with length 8cm and width 5cm is...</div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn--secondary" onclick="showView('teacherDashboard')">Cancel</button>
+                        <button type="button" class="btn btn--outline">Preview Exam</button>
+                        <button type="submit" class="btn btn--primary">Schedule Exam</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Teacher Analytics -->
+        <div id="teacherAnalytics" class="view">
+            <div class="analytics-container">
+                <div class="dashboard-header">
+                    <h1>Class Analytics</h1>
+                    <button class="btn btn--outline" id="exportBtn">📥 Export Report</button>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Performance Trends Over Time</h3>
+                        <canvas id="trendChart"></canvas>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Subject-wise Performance</h3>
+                        <canvas id="subjectChart"></canvas>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Student Performance Distribution</h3>
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+
+                    <div class="analytics-section">
+                        <h3>Topic Difficulty Analysis</h3>
+                        <div class="difficulty-list">
+                            <div class="difficulty-item high">
+                                <div class="difficulty-info">
+                                    <strong>Photosynthesis</strong>
+                                    <span class="subject-tag">Science</span>
+                                </div>
+                                <div class="difficulty-score">64% avg</div>
+                            </div>
+                            <div class="difficulty-item high">
+                                <div class="difficulty-info">
+                                    <strong>Word Problems</strong>
+                                    <span class="subject-tag">Mathematics</span>
+                                </div>
+                                <div class="difficulty-score">68% avg</div>
+                            </div>
+                            <div class="difficulty-item medium">
+                                <div class="difficulty-info">
+                                    <strong>Grammar Rules</strong>
+                                    <span class="subject-tag">English</span>
+                                </div>
+                                <div class="difficulty-score">84% avg</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn--secondary" onclick="showView('teacherDashboard')" style="margin-top: 24px;">← Back to Dashboard</button>
+            </div>
+        </div>
+
+        <!-- Parent Dashboard -->
+        <div id="parentDashboard" class="view">
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <h1>Welcome, Mr. Sharma 👋</h1>
+                    <p class="subtitle">Tracking Rahul's learning journey</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-1);">📊</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Overall Average</div>
+                            <div class="stat-value">78%</div>
+                            <span class="trend-indicator up">↗ Improving</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-3);">📝</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Exams This Week</div>
+                            <div class="stat-value">5</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background: var(--color-bg-5);">📈</div>
+                        <div class="stat-content">
+                            <div class="stat-label">Performance Trend</div>
+                            <div class="stat-value trend-positive">+5%</div>
+                            <span class="trend-indicator">vs last week</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="dashboard-section">
+                        <h2>Recent Exams</h2>
+                        <div class="parent-results-list">
+                            <div class="parent-result-item">
+                                <div class="result-subject">Mathematics</div>
+                                <div class="result-score success">85%</div>
+                                <div class="result-date">Oct 27</div>
+                            </div>
+                            <div class="parent-result-item">
+                                <div class="result-subject">Science</div>
+                                <div class="result-score warning">72%</div>
+                                <div class="result-date">Oct 26</div>
+                            </div>
+                            <div class="parent-result-item">
+                                <div class="result-subject">English</div>
+                                <div class="result-score success">88%</div>
+                                <div class="result-date">Oct 25</div>
+                            </div>
+                            <div class="parent-result-item">
+                                <div class="result-subject">Social Studies</div>
+                                <div class="result-score">75%</div>
+                                <div class="result-date">Oct 24</div>
+                            </div>
+                        </div>
+
+                        <h2 style="margin-top: 24px;">Progress Over Time</h2>
+                        <canvas id="parentProgressChart" style="max-height: 250px;"></canvas>
+                    </div>
+
+                    <div class="dashboard-section">
+                        <h2>AI Learning Insights</h2>
+                        <div class="insight-panel">
+                            <div class="insight-section success">
+                                <h3>🌟 Rahul's Strengths</h3>
+                                <ul class="insight-list">
+                                    <li>Excels in English language skills, particularly creative writing</li>
+                                    <li>Shows strong analytical thinking in mathematics</li>
+                                    <li>Maintains consistent study habits with good attendance</li>
+                                </ul>
+                            </div>
+                            <div class="insight-section warning">
+                                <h3>💡 Areas for Support at Home</h3>
+                                <ul class="insight-list">
+                                    <li>Help with math word problems - practice breaking down into steps</li>
+                                    <li>Quiz on science vocabulary during car rides or dinner</li>
+                                    <li>Encourage deep breathing to manage exam anxiety</li>
+                                </ul>
+                            </div>
+                            <div class="insight-section info">
+                                <h3>🎯 Recommended Activities</h3>
+                                <ul class="insight-list">
+                                    <li>Read together for 20 minutes daily</li>
+                                    <li>Practice 2-3 word problems each evening</li>
+                                    <li>Use cooking and gardening to teach science concepts</li>
+                                </ul>
+                            </div>
+                            <div class="learning-style">
+                                <h3>🧠 Learning Style</h3>
+                                <p>Rahul is a <strong>visual learner</strong> who benefits from diagrams, charts, and illustrations. Encourage him to draw out concepts and create mind maps when studying.</p>
+                            </div>
+                        </div>
+
+                        <h2 style="margin-top: 24px;">Teacher Messages</h2>
+                        <div class="messages-list">
+                            <div class="message-item">
+                                <div class="message-date">Oct 27</div>
+                                <p>Rahul showed excellent participation in today's group discussion. Keep encouraging his confidence!</p>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-date">Oct 25</div>
+                                <p>Please remind Rahul to bring his science textbook to class. He's been sharing with classmates.</p>
+                            </div>
+                            <div class="message-item">
+                                <div class="message-date">Oct 23</div>
+                                <p>Rahul's recent essay on environmental conservation was outstanding. Consider nurturing his writing talent.</p>
+                            </div>
+                        </div>
+
+                        <button class="btn btn--primary btn--full-width" style="margin-top: 16px;">📅 Schedule Parent-Teacher Meeting</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
